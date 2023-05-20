@@ -1,5 +1,6 @@
 const path = require('path')
-const products = [];
+const Product=require('../model/product')
+// const products = [];
 
 exports.adminFile1=(req, res, next) => {
     res.render('add-product', {
@@ -12,16 +13,18 @@ exports.adminFile1=(req, res, next) => {
 }
 
 exports.adminFile2=(req, res, next) => {
-    products.push({ title: req.body.title });
+    // products.push({ title: req.body.title });
+    const kuchBhi=new Product(req.body.title)
+    kuchBhi.save()
     res.redirect('/');
 }
 
 exports.shopFile1=(req, res, next) => {
     res.render('shop', {
-      prods: products,
+      prods: Product.fetchAll(),
       pageTitle: 'Shop',
       path: '/',
-      hasProducts: products.length > 0,
+      hasProducts: Product.fetchAll().length > 0,
       activeShop: true,
       productCSS: true
     });
